@@ -17,8 +17,6 @@
 ## Technology Stack
 
 - HTML
-- CSS
-- JavaScript
 
 ## How to Run
 
