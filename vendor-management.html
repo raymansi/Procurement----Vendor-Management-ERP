@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Vendor Management</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    padding:20px;
+}
+
+.header{
+    background:#1f4e79;
+    color:white;
+    padding:15px;
+    border-radius:8px;
+}
+
+.container{
+    margin-top:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+input,select{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    background:#1f4e79;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    cursor:pointer;
+    border-radius:5px;
+}
+
+button:hover{
+    background:#163a5d;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+table,th,td{
+    border:1px solid #ddd;
+}
+
+th{
+    background:#1f4e79;
+    color:white;
+}
+
+th,td{
+    padding:10px;
+    text-align:left;
+}
+
+.search-box{
+    margin-bottom:15px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Vendor Management</h1>
+</div>
+
+<div class="container">
+
+    <!-- Vendor Registration -->
+
+    <div class="card">
+
+        <h2>Register Vendor</h2>
+
+        <input type="text" id="vendorName" placeholder="Vendor Name">
+
+        <input type="text" id="gst" placeholder="GST Number">
+
+        <input type="text" id="contact" placeholder="Contact Number">
+
+        <input type="email" id="email" placeholder="Email">
+
+        <select id="category">
+            <option>IT Equipment</option>
+            <option>Furniture</option>
+            <option>Stationery</option>
+            <option>Services</option>
+        </select>
+
+        <select id="status">
+            <option>Active</option>
+            <option>Inactive</option>
+            <option>Pending Verification</option>
+        </select>
+
+        <button onclick="addVendor()">
+            Register Vendor
+        </button>
+
+    </div>
+
+    <!-- Search & Filter -->
+
+    <div class="card">
+
+        <h2>Search Vendors</h2>
+
+        <input
+            type="text"
+            id="searchVendor"
+            placeholder="Search Vendor Name"
+            onkeyup="searchVendor()">
+
+    </div>
+
+    <!-- Vendor Table -->
+
+    <div class="card">
+
+        <h2>Vendor Records</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Name</th>
+                    <th>GST</th>
+                    <th>Contact</th>
+                    <th>Email</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="vendorTable">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script>
+
+function addVendor(){
+
+    let name=document.getElementById("vendorName").value;
+    let gst=document.getElementById("gst").value;
+    let contact=document.getElementById("contact").value;
+    let email=document.getElementById("email").value;
+    let category=document.getElementById("category").value;
+    let status=document.getElementById("status").value;
+
+    if(name=="" || gst=="" || contact=="" || email==""){
+        alert("Please fill all fields");
+        return;
+    }
+
+    let table=document.getElementById("vendorTable");
+
+    let row=table.insertRow();
+
+    row.insertCell(0).innerHTML=name;
+    row.insertCell(1).innerHTML=gst;
+    row.insertCell(2).innerHTML=contact;
+    row.insertCell(3).innerHTML=email;
+    row.insertCell(4).innerHTML=category;
+    row.insertCell(5).innerHTML=status;
+
+    document.getElementById("vendorName").value="";
+    document.getElementById("gst").value="";
+    document.getElementById("contact").value="";
+    document.getElementById("email").value="";
+
+}
+
+function searchVendor(){
+
+    let input=document.getElementById("searchVendor");
+    let filter=input.value.toUpperCase();
+
+    let table=document.getElementById("vendorTable");
+    let tr=table.getElementsByTagName("tr");
+
+    for(let i=0;i<tr.length;i++){
+
+        let td=tr[i].getElementsByTagName("td")[0];
+
+        if(td){
+
+            let txtValue=td.textContent || td.innerText;
+
+            if(txtValue.toUpperCase().indexOf(filter)>-1){
+                tr[i].style.display="";
+            }
+            else{
+                tr[i].style.display="none";
+            }
+
+        }
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>

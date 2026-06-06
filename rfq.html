@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RFQ Creation</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f6f9;
+    margin:0;
+}
+
+.header{
+    background:#1f4e79;
+    color:white;
+    padding:15px;
+}
+
+.container{
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    padding:10px;
+    margin-top:8px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    background:#1f4e79;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#163a5d;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:10px;
+}
+
+th{
+    background:#1f4e79;
+    color:white;
+}
+
+.back{
+    margin-top:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>RFQ Creation Screen</h2>
+</div>
+
+<div class="container">
+
+<div class="card">
+
+    <h3>Create New RFQ</h3>
+
+    <label>RFQ Title</label>
+    <input type="text" id="title">
+
+    <label>Product / Service Details</label>
+    <textarea id="details"></textarea>
+
+    <label>Quantity</label>
+    <input type="number" id="quantity">
+
+    <label>Attachment</label>
+    <input type="file" id="attachment">
+
+    <label>Deadline</label>
+    <input type="date" id="deadline">
+
+    <label>Assign Vendor</label>
+
+    <select id="vendor">
+        <option>ABC Suppliers</option>
+        <option>XYZ Technologies</option>
+        <option>Global Traders</option>
+        <option>Office Solutions Ltd</option>
+    </select>
+
+    <button onclick="createRFQ()">
+        Create RFQ
+    </button>
+
+</div>
+
+<div class="card" style="margin-top:20px;">
+
+    <h3>Created RFQs</h3>
+
+    <table>
+
+        <thead>
+
+        <tr>
+            <th>Title</th>
+            <th>Details</th>
+            <th>Quantity</th>
+            <th>Deadline</th>
+            <th>Vendor</th>
+            <th>Status</th>
+        </tr>
+
+        </thead>
+
+        <tbody id="rfqTable">
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<button
+class="back"
+onclick="window.location.href='dashboard.html'">
+Back to Dashboard
+</button>
+
+</div>
+
+<script>
+
+let rfqs=[];
+
+function createRFQ(){
+
+    let title=document.getElementById("title").value;
+
+    let details=document.getElementById("details").value;
+
+    let quantity=document.getElementById("quantity").value;
+
+    let deadline=document.getElementById("deadline").value;
+
+    let vendor=document.getElementById("vendor").value;
+
+    if(
+        title=="" ||
+        details=="" ||
+        quantity=="" ||
+        deadline==""
+    ){
+        alert("Please fill all required fields");
+        return;
+    }
+
+    let rfq={
+        title,
+        details,
+        quantity,
+        deadline,
+        vendor,
+        status:"Active"
+    };
+
+    rfqs.push(rfq);
+
+    displayRFQ();
+
+    clearForm();
+
+}
+
+function displayRFQ(){
+
+    let table=document.getElementById("rfqTable");
+
+    table.innerHTML="";
+
+    rfqs.forEach(r=>{
+
+        table.innerHTML += `
+        <tr>
+            <td>${r.title}</td>
+            <td>${r.details}</td>
+            <td>${r.quantity}</td>
+            <td>${r.deadline}</td>
+            <td>${r.vendor}</td>
+            <td>${r.status}</td>
+        </tr>
+        `;
+
+    });
+
+}
+
+function clearForm(){
+
+    title.value="";
+    details.value="";
+    quantity.value="";
+    deadline.value="";
+    vendor.selectedIndex=0;
+
+}
+
+</script>
+
+</body>
+</html>

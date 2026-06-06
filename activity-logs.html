@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Activity Logs & Notifications</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    margin:0;
+    background:#f4f6f9;
+}
+
+.header{
+    background:#1f4e79;
+    color:white;
+    padding:15px;
+}
+
+.container{
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.notification{
+    padding:12px;
+    margin-bottom:10px;
+    border-left:5px solid #1f4e79;
+    background:#eef5fb;
+}
+
+.timeline{
+    border-left:4px solid #1f4e79;
+    margin-left:15px;
+    padding-left:20px;
+}
+
+.event{
+    margin-bottom:20px;
+    position:relative;
+}
+
+.event::before{
+    content:'';
+    width:12px;
+    height:12px;
+    background:#1f4e79;
+    border-radius:50%;
+    position:absolute;
+    left:-27px;
+    top:5px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:left;
+}
+
+th{
+    background:#1f4e79;
+    color:white;
+}
+
+button{
+    background:#1f4e79;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#163a5d;
+}
+
+.status-success{
+    color:green;
+    font-weight:bold;
+}
+
+.status-pending{
+    color:orange;
+    font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>Activity Logs & Notifications</h2>
+</div>
+
+<div class="container">
+
+<!-- Notifications -->
+
+<div class="card">
+
+<h3>Notifications</h3>
+
+<div class="notification">
+📢 New RFQ Created: Laptop Procurement
+</div>
+
+<div class="notification">
+✅ Approval Granted for RFQ-001
+</div>
+
+<div class="notification">
+🧾 Invoice INV-1001 Generated
+</div>
+
+<div class="notification">
+📧 Invoice Sent to Vendor
+</div>
+
+</div>
+
+<!-- Activity Timeline -->
+
+<div class="card">
+
+<h3>Procurement Activity Timeline</h3>
+
+<div class="timeline">
+
+<div class="event">
+RFQ Created - 10:00 AM
+</div>
+
+<div class="event">
+Vendor Submitted Quotation - 11:15 AM
+</div>
+
+<div class="event">
+Quotation Compared - 12:00 PM
+</div>
+
+<div class="event">
+Manager Approved Request - 1:30 PM
+</div>
+
+<div class="event">
+Purchase Order Generated - 2:00 PM
+</div>
+
+<div class="event">
+Invoice Generated & Sent - 2:30 PM
+</div>
+
+</div>
+
+</div>
+
+<!-- Audit Logs -->
+
+<div class="card">
+
+<h3>Audit Logs</h3>
+
+<table>
+
+<thead>
+
+<tr>
+<th>Date</th>
+<th>User</th>
+<th>Action</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>06-Jun-2026</td>
+<td>Admin</td>
+<td>Created RFQ-001</td>
+<td class="status-success">
+Completed
+</td>
+</tr>
+
+<tr>
+<td>06-Jun-2026</td>
+<td>Vendor</td>
+<td>Submitted Quotation</td>
+<td class="status-success">
+Completed
+</td>
+</tr>
+
+<tr>
+<td>06-Jun-2026</td>
+<td>Manager</td>
+<td>Approved Procurement Request</td>
+<td class="status-success">
+Approved
+</td>
+</tr>
+
+<tr>
+<td>06-Jun-2026</td>
+<td>Finance</td>
+<td>Generated Invoice</td>
+<td class="status-success">
+Generated
+</td>
+</tr>
+
+<tr>
+<td>06-Jun-2026</td>
+<td>Finance</td>
+<td>Sent Invoice Email</td>
+<td class="status-pending">
+Sent
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<button onclick="window.location.href='dashboard.html'">
+Back to Dashboard
+</button>
+
+</div>
+
+</body>
+</html>

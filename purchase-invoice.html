@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Purchase Order & Invoice Generation</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    margin:0;
+    background:#f4f6f9;
+}
+
+.header{
+    background:#1f4e79;
+    color:white;
+    padding:15px;
+}
+
+.container{
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin-top:8px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    background:#1f4e79;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+    margin-right:10px;
+    margin-top:10px;
+}
+
+button:hover{
+    background:#163a5d;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:10px;
+}
+
+th{
+    background:#1f4e79;
+    color:white;
+    width:35%;
+}
+
+.invoice{
+    display:none;
+}
+
+.status{
+    font-weight:bold;
+    color:green;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>Purchase Order & Invoice Generation</h2>
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<h3>Create Purchase Order</h3>
+
+<label>Vendor Name</label>
+<input type="text" id="vendor">
+
+<label>Product / Service</label>
+<input type="text" id="item">
+
+<label>Quantity</label>
+<input type="number" id="qty">
+
+<label>Unit Price (₹)</label>
+<input type="number" id="price">
+
+<button onclick="generateInvoice()">
+Generate PO & Invoice
+</button>
+
+</div>
+
+<div class="card invoice" id="invoiceSection">
+
+<h3>Generated Invoice</h3>
+
+<table>
+
+<tr>
+<th>PO Number</th>
+<td id="poNumber"></td>
+</tr>
+
+<tr>
+<th>Vendor</th>
+<td id="invVendor"></td>
+</tr>
+
+<tr>
+<th>Product</th>
+<td id="invItem"></td>
+</tr>
+
+<tr>
+<th>Quantity</th>
+<td id="invQty"></td>
+</tr>
+
+<tr>
+<th>Unit Price</th>
+<td id="invPrice"></td>
+</tr>
+
+<tr>
+<th>Subtotal</th>
+<td id="subtotal"></td>
+</tr>
+
+<tr>
+<th>GST (18%)</th>
+<td id="gst"></td>
+</tr>
+
+<tr>
+<th>Total Amount</th>
+<td id="total"></td>
+</tr>
+
+<tr>
+<th>Status</th>
+<td id="status" class="status">
+Pending
+</td>
+</tr>
+
+</table>
+
+<br>
+
+<button onclick="downloadPDF()">
+Download PDF
+</button>
+
+<button onclick="printInvoice()">
+Print Invoice
+</button>
+
+<button onclick="sendInvoice()">
+Send Invoice via Email
+</button>
+
+</div>
+
+<br>
+
+<button onclick="window.location.href='dashboard.html'">
+Back to Dashboard
+</button>
+
+</div>
+
+<script>
+
+function generateInvoice(){
+
+    let vendor =
+    document.getElementById("vendor").value;
+
+    let item =
+    document.getElementById("item").value;
+
+    let qty =
+    parseInt(document.getElementById("qty").value);
+
+    let price =
+    parseFloat(document.getElementById("price").value);
+
+    if(
+        !vendor ||
+        !item ||
+        !qty ||
+        !price
+    ){
+        alert("Please fill all fields");
+        return;
+    }
+
+    let poNumber =
+    "PO-" +
+    Math.floor(
+        100000 + Math.random()*900000
+    );
+
+    let subtotal =
+    qty * price;
+
+    let gst =
+    subtotal * 0.18;
+
+    let total =
+    subtotal + gst;
+
+    document.getElementById("poNumber")
+    .innerHTML = poNumber;
+
+    document.getElementById("invVendor")
+    .innerHTML = vendor;
+
+    document.getElementById("invItem")
+    .innerHTML = item;
+
+    document.getElementById("invQty")
+    .innerHTML = qty;
+
+    document.getElementById("invPrice")
+    .innerHTML = "₹" + price.toFixed(2);
+
+    document.getElementById("subtotal")
+    .innerHTML = "₹" + subtotal.toFixed(2);
+
+    document.getElementById("gst")
+    .innerHTML = "₹" + gst.toFixed(2);
+
+    document.getElementById("total")
+    .innerHTML = "₹" + total.toFixed(2);
+
+    document.getElementById("status")
+    .innerHTML = "Invoice Generated";
+
+    document.getElementById("invoiceSection")
+    .style.display = "block";
+}
+
+async function downloadPDF(){
+
+    const { jsPDF } = window.jspdf;
+
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text("Purchase Order Invoice",20,20);
+
+    doc.setFontSize(12);
+
+    doc.text(
+        "PO Number: " +
+        document.getElementById("poNumber").innerText,
+        20,
+        40
+    );
+
+    doc.text(
+        "Vendor: " +
+        document.getElementById("invVendor").innerText,
+        20,
+        50
+    );
+
+    doc.text(
+        "Product: " +
+        document.getElementById("invItem").innerText,
+        20,
+        60
+    );
+
+    doc.text(
+        "Total Amount: " +
+        document.getElementById("total").innerText,
+        20,
+        70
+    );
+
+    doc.save("Invoice.pdf");
+
+    document.getElementById("status")
+    .innerHTML = "PDF Downloaded";
+}
+
+function printInvoice(){
+
+    document.getElementById("status")
+    .innerHTML = "Printed";
+
+    window.print();
+}
+
+function sendInvoice(){
+
+    document.getElementById("status")
+    .innerHTML = "Email Sent";
+
+    alert(
+        "Invoice emailed successfully (Demo Mode)"
+    );
+}
+
+</script>
+
+</body>
+</html>

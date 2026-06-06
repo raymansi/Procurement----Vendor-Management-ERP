@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quotation Comparison</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f6f9;
+    margin:0;
+}
+
+.header{
+    background:#1f4e79;
+    color:white;
+    padding:15px;
+}
+
+.container{
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+th{
+    background:#1f4e79;
+    color:white;
+}
+
+.lowest{
+    background:#d4edda;
+    font-weight:bold;
+}
+
+input,select{
+    padding:10px;
+    margin-right:10px;
+    margin-bottom:15px;
+}
+
+button{
+    background:#1f4e79;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#163a5d;
+}
+
+.star{
+    color:gold;
+    font-size:18px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+    <h2>Quotation Comparison & Evaluation</h2>
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<h3>Filter & Sort</h3>
+
+<select id="sortOption" onchange="sortTable()">
+
+<option value="">Select Sort Option</option>
+
+<option value="price">
+Lowest Price First
+</option>
+
+<option value="delivery">
+Fastest Delivery
+</option>
+
+<option value="rating">
+Highest Rating
+</option>
+
+</select>
+
+<input
+type="text"
+id="searchVendor"
+placeholder="Search Vendor"
+onkeyup="filterVendor()">
+
+</div>
+
+<div class="card">
+
+<h3>Quotation Comparison</h3>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Vendor</th>
+
+<th>Quoted Price (₹)</th>
+
+<th>Delivery Days</th>
+
+<th>Vendor Rating</th>
+
+<th>Status</th>
+
+</tr>
+
+</thead>
+
+<tbody id="quotationTable">
+
+<tr>
+
+<td>ABC Suppliers</td>
+
+<td class="price">50000</td>
+
+<td>10</td>
+
+<td>★★★★★</td>
+
+<td>Preferred</td>
+
+</tr>
+
+<tr>
+
+<td>XYZ Technologies</td>
+
+<td class="price">45000</td>
+
+<td>12</td>
+
+<td>★★★★☆</td>
+
+<td>Lowest Price</td>
+
+</tr>
+
+<tr>
+
+<td>Global Traders</td>
+
+<td class="price">55000</td>
+
+<td>8</td>
+
+<td>★★★★★</td>
+
+<td>Fastest Delivery</td>
+
+</tr>
+
+<tr>
+
+<td>Prime Office Solutions</td>
+
+<td class="price">48000</td>
+
+<td>15</td>
+
+<td>★★★☆☆</td>
+
+<td>Under Review</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+<button onclick="window.location.href='dashboard.html'">
+
+Back to Dashboard
+
+</button>
+
+</div>
+
+<script>
+
+highlightLowestPrice();
+
+function highlightLowestPrice(){
+
+let prices=document.querySelectorAll(".price");
+
+let lowest=Infinity;
+
+prices.forEach(cell=>{
+
+let value=parseInt(cell.innerText);
+
+if(value<lowest){
+lowest=value;
+}
+
+});
+
+prices.forEach(cell=>{
+
+if(parseInt(cell.innerText)===lowest){
+cell.classList.add("lowest");
+}
+
+});
+
+}
+
+function filterVendor(){
+
+let input=
+document.getElementById("searchVendor")
+.value
+.toLowerCase();
+
+let rows=
+document.querySelectorAll("#quotationTable tr");
+
+rows.forEach(row=>{
+
+let vendor=
+row.children[0]
+.innerText
+.toLowerCase();
+
+if(vendor.includes(input)){
+row.style.display="";
+}else{
+row.style.display="none";
+}
+
+});
+
+}
+
+function sortTable(){
+
+let option=
+document.getElementById("sortOption").value;
+
+let table=
+document.getElementById("quotationTable");
+
+let rows=
+Array.from(table.rows);
+
+rows.sort((a,b)=>{
+
+if(option==="price"){
+
+return parseInt(a.cells[1].innerText)
+-
+parseInt(b.cells[1].innerText);
+
+}
+
+if(option==="delivery"){
+
+return parseInt(a.cells[2].innerText)
+-
+parseInt(b.cells[2].innerText);
+
+}
+
+if(option==="rating"){
+
+return b.cells[3].innerText.length
+-
+a.cells[3].innerText.length;
+
+}
+
+return 0;
+
+});
+
+table.innerHTML="";
+
+rows.forEach(row=>{
+table.appendChild(row);
+});
+
+}
+
+</script>
+
+</body>
+</html>

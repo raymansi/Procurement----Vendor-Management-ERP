@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Reports & Analytics</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f6f9;
+    margin:0;
+}
+
+.header{
+    background:#1f4e79;
+    color:white;
+    padding:15px;
+}
+
+.container{
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.stat-box{
+    background:#eef5fb;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+}
+
+.stat-box h2{
+    color:#1f4e79;
+    margin:10px 0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:left;
+}
+
+th{
+    background:#1f4e79;
+    color:white;
+}
+
+button{
+    background:#1f4e79;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+button:hover{
+    background:#163a5d;
+}
+
+.chart{
+    display:flex;
+    align-items:flex-end;
+    gap:15px;
+    height:250px;
+    margin-top:20px;
+}
+
+.bar{
+    flex:1;
+    background:#1f4e79;
+    text-align:center;
+    color:white;
+    padding-top:5px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>Reports & Analytics</h2>
+</div>
+
+<div class="container">
+
+<!-- Procurement Statistics -->
+
+<div class="card">
+
+<h3>Procurement Statistics</h3>
+
+<div class="stats">
+
+<div class="stat-box">
+<h4>Total RFQs</h4>
+<h2>120</h2>
+</div>
+
+<div class="stat-box">
+<h4>Total Vendors</h4>
+<h2>45</h2>
+</div>
+
+<div class="stat-box">
+<h4>Purchase Orders</h4>
+<h2>85</h2>
+</div>
+
+<div class="stat-box">
+<h4>Invoices Generated</h4>
+<h2>76</h2>
+</div>
+
+</div>
+
+</div>
+
+<!-- Spending Summary -->
+
+<div class="card">
+
+<h3>Spending Summary</h3>
+
+<table>
+
+<tr>
+<th>Category</th>
+<th>Amount (₹)</th>
+</tr>
+
+<tr>
+<td>IT Equipment</td>
+<td>₹8,50,000</td>
+</tr>
+
+<tr>
+<td>Office Furniture</td>
+<td>₹3,20,000</td>
+</tr>
+
+<tr>
+<td>Stationery</td>
+<td>₹90,000</td>
+</tr>
+
+<tr>
+<td>Software Licenses</td>
+<td>₹4,40,000</td>
+</tr>
+
+<tr>
+<th>Total Spend</th>
+<th>₹17,00,000</th>
+</tr>
+
+</table>
+
+</div>
+
+<!-- Vendor Performance -->
+
+<div class="card">
+
+<h3>Vendor Performance Analytics</h3>
+
+<table>
+
+<tr>
+<th>Vendor</th>
+<th>Orders Completed</th>
+<th>On-Time Delivery %</th>
+<th>Rating</th>
+</tr>
+
+<tr>
+<td>ABC Suppliers</td>
+<td>35</td>
+<td>96%</td>
+<td>★★★★★</td>
+</tr>
+
+<tr>
+<td>XYZ Technologies</td>
+<td>28</td>
+<td>92%</td>
+<td>★★★★☆</td>
+</tr>
+
+<tr>
+<td>Global Traders</td>
+<td>20</td>
+<td>89%</td>
+<td>★★★★☆</td>
+</tr>
+
+</table>
+
+</div>
+
+<!-- Monthly Procurement Trends -->
+
+<div class="card">
+
+<h3>Monthly Procurement Trends</h3>
+
+<div class="chart">
+
+<div class="bar" style="height:120px;">
+Jan
+</div>
+
+<div class="bar" style="height:180px;">
+Feb
+</div>
+
+<div class="bar" style="height:140px;">
+Mar
+</div>
+
+<div class="bar" style="height:220px;">
+Apr
+</div>
+
+<div class="bar" style="height:190px;">
+May
+</div>
+
+<div class="bar" style="height:240px;">
+Jun
+</div>
+
+</div>
+
+<p>
+Bar height represents procurement volume.
+</p>
+
+</div>
+
+<!-- Export Reports -->
+
+<div class="card">
+
+<h3>Export Reports</h3>
+
+<button onclick="exportReport()">
+Export Report
+</button>
+
+</div>
+
+<button onclick="window.location.href='dashboard.html'">
+Back to Dashboard
+</button>
+
+</div>
+
+<script>
+
+function exportReport(){
+
+    let report = `
+PROCUREMENT REPORT
+
+Total RFQs: 120
+Total Vendors: 45
+Purchase Orders: 85
+Invoices Generated: 76
+
+Total Spend: ₹17,00,000
+
+Top Vendor:
+ABC Suppliers
+Rating: 5 Stars
+`;
+
+    let blob =
+    new Blob([report],
+    {type:'text/plain'});
+
+    let link =
+    document.createElement('a');
+
+    link.href =
+    URL.createObjectURL(blob);
+
+    link.download =
+    "Procurement_Report.txt";
+
+    link.click();
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProcurePro ERP Login</title>
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f6f9;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    width:400px;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.15);
+}
+
+h2{
+    text-align:center;
+    color:#1f4e79;
+}
+
+input,select{
+    width:100%;
+    padding:10px;
+    margin:8px 0;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    width:100%;
+    padding:10px;
+    background:#1f4e79;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#163a5d;
+}
+
+.link{
+    text-align:center;
+    margin-top:10px;
+    cursor:pointer;
+    color:blue;
+}
+
+.hidden{
+    display:none;
+}
+
+.message{
+    margin-top:10px;
+    text-align:center;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <div id="loginSection">
+
+        <h2>Login</h2>
+
+        <input type="email" id="loginEmail" placeholder="Email">
+
+        <input type="password" id="loginPassword" placeholder="Password">
+
+        <button onclick="login()">Login</button>
+
+        <div class="link" onclick="showSignup()">
+            Create Account
+        </div>
+
+        <div class="link" onclick="showForgotPassword()">
+            Forgot Password?
+        </div>
+
+    </div>
+
+    <div id="signupSection" class="hidden">
+
+        <h2>Signup</h2>
+
+        <input type="text" id="name" placeholder="Full Name">
+
+        <input type="email" id="email" placeholder="Email">
+
+        <input type="password" id="password" placeholder="Password">
+
+        <select id="role">
+            <option>Admin</option>
+            <option>Manager</option>
+            <option>Procurement Officer</option>
+            <option>Vendor</option>
+        </select>
+
+        <button onclick="signup()">Signup</button>
+
+        <div class="link" onclick="showLogin()">
+            Back to Login
+        </div>
+
+    </div>
+
+    <div id="forgotSection" class="hidden">
+
+        <h2>Forgot Password</h2>
+
+        <input type="email" id="forgotEmail" placeholder="Enter Email">
+
+        <button onclick="forgotPassword()">
+            Reset Password
+        </button>
+
+        <div class="link" onclick="showLogin()">
+            Back to Login
+        </div>
+
+    </div>
+
+    <div class="message" id="message"></div>
+
+</div>
+
+<script>
+
+function showSignup(){
+    loginSection.classList.add("hidden");
+    signupSection.classList.remove("hidden");
+    forgotSection.classList.add("hidden");
+}
+
+function showLogin(){
+    loginSection.classList.remove("hidden");
+    signupSection.classList.add("hidden");
+    forgotSection.classList.add("hidden");
+}
+
+function showForgotPassword(){
+    loginSection.classList.add("hidden");
+    signupSection.classList.add("hidden");
+    forgotSection.classList.remove("hidden");
+}
+
+function signup(){
+
+    let name=document.getElementById("name").value;
+    let email=document.getElementById("email").value;
+    let password=document.getElementById("password").value;
+    let role=document.getElementById("role").value;
+
+    if(name=="" || email=="" || password==""){
+        message.innerHTML="All fields required";
+        return;
+    }
+
+    let user={
+        name,
+        email,
+        password,
+        role
+    };
+
+    localStorage.setItem(email,JSON.stringify(user));
+
+    message.innerHTML="Signup Successful";
+
+    showLogin();
+}
+
+function login(){
+
+    let email=document.getElementById("loginEmail").value;
+    let password=document.getElementById("loginPassword").value;
+
+    let user=JSON.parse(localStorage.getItem(email));
+
+    if(user==null){
+        message.innerHTML="User not found";
+        return;
+    }
+
+    if(user.password!==password){
+        message.innerHTML="Invalid Password";
+        return;
+    }
+
+    sessionStorage.setItem("loggedInUser",email);
+
+    if(user.role==="Admin"){
+        window.location.href="dashboard.html";
+    }
+    else if(user.role==="Manager"){
+        window.location.href="manager-dashboard.html";
+    }
+    else if(user.role==="Procurement Officer"){
+        window.location.href="procurement-officer-dashboard.html";
+    }
+    else{
+        window.location.href="vendor-dashboard.html";
+    }
+
+    message.innerHTML="Login Successful";
+}
+
+function forgotPassword(){
+
+    let email=document.getElementById("forgotEmail").value;
+
+    let user=JSON.parse(localStorage.getItem(email));
+
+    if(user==null){
+        message.innerHTML="Email not registered";
+        return;
+    }
+
+    alert("Demo Mode: Password is -> " + user.password);
+
+    showLogin();
+}
+
+</script>
+
+</body>
+</html>

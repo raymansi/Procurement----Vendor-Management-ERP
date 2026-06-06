@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Approval Workflow</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f6f9;
+    margin:0;
+}
+
+.header{
+    background:#1f4e79;
+    color:white;
+    padding:15px;
+}
+
+.container{
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:left;
+}
+
+th{
+    background:#1f4e79;
+    color:white;
+}
+
+textarea{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+button{
+    border:none;
+    padding:10px 15px;
+    border-radius:5px;
+    cursor:pointer;
+    margin-right:10px;
+}
+
+.approve{
+    background:green;
+    color:white;
+}
+
+.reject{
+    background:red;
+    color:white;
+}
+
+.timeline{
+    border-left:4px solid #1f4e79;
+    padding-left:15px;
+}
+
+.event{
+    margin-bottom:15px;
+}
+
+.status{
+    font-weight:bold;
+    color:#1f4e79;
+}
+
+.back-btn{
+    background:#1f4e79;
+    color:white;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2>Approval Workflow Screen</h2>
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<h3>Procurement Request</h3>
+
+<table>
+
+<tr>
+<th>RFQ ID</th>
+<td>RFQ-001</td>
+</tr>
+
+<tr>
+<th>Item</th>
+<td>Laptop Procurement</td>
+</tr>
+
+<tr>
+<th>Vendor</th>
+<td>XYZ Technologies</td>
+</tr>
+
+<tr>
+<th>Quotation Amount</th>
+<td>₹45,000</td>
+</tr>
+
+<tr>
+<th>Current Status</th>
+<td id="statusText" class="status">
+Pending Approval
+</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="card">
+
+<h3>Approval Remarks</h3>
+
+<textarea
+id="remarks"
+rows="4"
+placeholder="Enter approval remarks...">
+</textarea>
+
+<button
+class="approve"
+onclick="approveRequest()">
+Approve
+</button>
+
+<button
+class="reject"
+onclick="rejectRequest()">
+Reject
+</button>
+
+</div>
+
+<div class="card">
+
+<h3>Approval Timeline</h3>
+
+<div class="timeline" id="timeline">
+
+<div class="event">
+RFQ Created
+</div>
+
+<div class="event">
+Quotation Submitted
+</div>
+
+<div class="event">
+Quotation Compared
+</div>
+
+</div>
+
+</div>
+
+<button
+class="back-btn"
+onclick="window.location.href='dashboard.html'">
+Back to Dashboard
+</button>
+
+</div>
+
+<script>
+
+function approveRequest(){
+
+let remarks =
+document.getElementById("remarks").value;
+
+if(remarks===""){
+alert("Please enter remarks");
+return;
+}
+
+document.getElementById("statusText").innerHTML =
+"Approved";
+
+document.getElementById("timeline").innerHTML +=
+`
+<div class="event">
+✔ Approved<br>
+Remarks: ${remarks}
+</div>
+`;
+
+alert("Request Approved Successfully");
+
+}
+
+function rejectRequest(){
+
+let remarks =
+document.getElementById("remarks").value;
+
+if(remarks===""){
+alert("Please enter remarks");
+return;
+}
+
+document.getElementById("statusText").innerHTML =
+"Rejected";
+
+document.getElementById("timeline").innerHTML +=
+`
+<div class="event">
+✖ Rejected<br>
+Remarks: ${remarks}
+</div>
+`;
+
+alert("Request Rejected");
+
+}
+
+</script>
+
+</body>
+</html>
