@@ -1,8 +1,5 @@
 # Procurement & Vendor Management ERP
 
-## Project Overview
-
-(Paste the Project Overview text here)
 
 ## Features
 
